@@ -30,7 +30,12 @@ module Products
 
     config.after_initialize do
       Rails.application.load_tasks # <---
-      Rake::Task['db:seed'].invoke
+      #Estos hay que hacerlos
+      Rake::Task['db:migrate'].invoke
+      unless defined?(Rails::Console) 
+        Rake::Task['db:seed'].invoke
+      end
+      #Rake::Task['db:seed'].invoke
     end
     # Configuration for the application, engines, and railties goes here.
     #
