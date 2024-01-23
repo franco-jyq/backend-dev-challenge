@@ -10,5 +10,5 @@ WORKDIR /usr/src/app/
 
 RUN bundle install
 
-CMD [ "rails", "s", "-b", "0.0.0.0" ]
+CMD rails test && rails s -b 0.0.0.0
 
