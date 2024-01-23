@@ -19,4 +19,9 @@ Ejecutar el comando:
 ```bash
 rails s 
 ```
-...
+
+### Tests
+Ejecutar los test en el entorno local.
+```bash
+rails test 
+```
