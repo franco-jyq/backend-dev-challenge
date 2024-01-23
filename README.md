@@ -8,7 +8,7 @@ Dependencias:
 ## Instalacion
 
 ### Docker
-Descargar el repositorio y setear la variable de entorno `RAILS_MASTER_KEY` utilizando como valor la clave compartida en el mail.<br>
+Clonar el repositorio y setear la variable de entorno `RAILS_MASTER_KEY` utilizando como valor la clave compartida en el mail.<br>
 Ejecutar el comando:
 ```bash
  docker-compose up
