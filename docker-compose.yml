@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    environment:
+      - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
+    ports:
+      - "3001:3000"
+    volumes:
+      - .:/usr/src/app
