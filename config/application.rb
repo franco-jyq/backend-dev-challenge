@@ -29,13 +29,11 @@ module Products
     config.autoload_lib(ignore: %w(assets tasks))
 
     config.after_initialize do
-      Rails.application.load_tasks # <---
-      #Estos hay que hacerlos
+      Rails.application.load_tasks # <---      
       Rake::Task['db:migrate'].invoke
-      unless defined?(Rails::Console) 
+      unless Rails.env.test? || defined?(Rails::Console) 
         Rake::Task['db:seed'].invoke
       end
-      #Rake::Task['db:seed'].invoke
     end
     # Configuration for the application, engines, and railties goes here.
     #
