@@ -117,9 +117,9 @@ La generación de tokens para la autenticación se llevó a cabo utilizando la R
 
 ## Sincronización con API externa
 
-La funcionalidad de sincronización de la lista de productos con una API externa se logró de manera mediante el uso de las utilidades de seeds proporcionadas por Ruby on Rails. Esta implementación garantiza que, al ejecutar la aplicación por primera vez, los productos devueltos por la API externa se agreguen al listado inicial de productos almacenados en la base de datos. <br>
+La funcionalidad de sincronización de la lista de productos con una API externa se logró mediante el uso de las utilidades de seeds proporcionadas por Ruby on Rails. Esta implementación garantiza que, al ejecutar la aplicación por primera vez, los productos devueltos por la API externa se agreguen al listado inicial de productos almacenados en la base de datos. <br>
 
-En Ruby on Rails, los seeds son scripts que permiten la carga de datos iniciales en la base de datos. Estos scripts son ejecutados mediante el comando rails db:seed, y son ideales para la inicialización de datos necesarios para el funcionamiento básico de la aplicación.
+En Ruby on Rails, los seeds son scripts que permiten la carga de datos iniciales en la base de datos. Estos scripts son ejecutados mediante el comando rails db:seed, y son ideales para la inicialización de datos necesarios para el funcionamiento básico de la aplicación. El script se encuentra en `db/seeds.rb`
 
 ### Manejo de Incompatibilidades de Identificadores (IDs)
 
