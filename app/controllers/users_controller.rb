@@ -51,7 +51,7 @@ class UsersController < ApplicationController
     # Devuelve: 
     # - En caso de éxito: JSON con la clave API del usuario y estado HTTP 201 (Creado)
     # - Si el usuario ya existe: mensaje de error y estado HTTP 409 (Conflicto)
-    # - Si ocurre otro error: mensaje de error y estado HTTP 422 (Entidad no procesable)
+    # - Si ocurre otro error: mensaje de error y estado HTTP 500 (Error interno del servidor)
     def create
         @email = params[:user][:email]
         @password = params[:user][:password]
@@ -92,10 +92,12 @@ class UsersController < ApplicationController
 
     # Obtiene un token de Firebase
     def fetch_token(url)
-        # TODO: si falla el request a firebase devolver un error 500
         uri = URI(url)
         response = Net::HTTP.post_form(uri, "email": @email, "password": @password, returnSecureToken: true)
         data = JSON.parse(response.body)
+        if data["idToken"].nil?
+            render json: { error: 'Error autenticando' }, status: :internal_server_error and return
+        end
         data["idToken"]
     end
 
