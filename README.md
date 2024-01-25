@@ -126,3 +126,12 @@ En Ruby on Rails, los seeds son scripts que permiten la carga de datos iniciales
 ### Manejo de Incompatibilidades de Identificadores (IDs)
 
 Dado que la API externa proporciona identificadores (IDs) para los productos, se abordó la posible incompatibilidad con los IDs existentes en la base de datos actual. Para evitar conflictos y garantizar la integridad de los datos, se tomó la decisión de generar nuevos IDs para los productos provenientes de la API externa.
+
+## Implementacion Asincronica de la creación de productos
+
+Para abordar la creación asincrónica de productos, se implementó una funcionalidad adicional en una branch separada llamada "async". La idea principal detrás de esta implementación es optimizar la velocidad de respuesta del endpoint de creación de productos al ejecutar la tarea de creación de productos en segundo plano, a través de una cola de trabajos. <br>
+Se destaca que la confirmación de creación no estará inmediatamente disponible en la respuesta HTTP, ya que la tarea se realiza de manera asincrónica.
+
+Esto se logró mediante el uso de Active Job, el framework de trabajos asíncronos de Rails. Active Job facilita la ejecución de tareas en segundo plano.
+
+[Enlace a la documentación de Ruby on Rails sobre Active Job](https://edgeguides.rubyonrails.org/active_job_basics.html#the-purpose-of-active-job)
