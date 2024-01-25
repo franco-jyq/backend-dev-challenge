@@ -7,12 +7,12 @@ Dependencias:
 
 ## Instalacion
 
-La aplicacion escucha las peticiones en el localhost:3000
+La aplicación está configurada para responder a las solicitudes entrantes a través del protocolo HTTP en el puerto 3000 del entorno de desarrollo local (localhost:3000).
 
 ### Docker
 
 Clonar el repositorio y setear la variable de entorno `RAILS_MASTER_KEY` utilizando como valor la clave compartida en el mail.<br>
-Ejecutar el comando:
+Con el siguiente comando se levanta el servidor y se corren las pruebas.
 
 ```bash
  docker-compose up
@@ -21,7 +21,7 @@ Ejecutar el comando:
 ### Local
 
 Descargar el repositorio y las dependencias. <br>
-Ejecutar el comando:
+Levantar el servidor:
 
 ```bash
 rails s
@@ -29,8 +29,85 @@ rails s
 
 ### Tests
 
-Ejecutar los test en el entorno local.
+Ejecutar los tests.
 
 ```bash
 rails test
 ```
+
+## Endpoints
+
+A continuación se listaran los endpoints disponibles y algunos de los comportamientos que fueron validados. <br>
+En la carpeta `test/controllers` se pueden ver los test de integración para cada endpoint en los archivos `users_controller_tests.rb` y `products_controller_tests.rb`.
+
+### Creación de usuario
+
+```bash
+curl -X POST http://localhost:3000/users -H "Content-Type: application/json" \
+-d '{"user": {"email": "fudo@example.com", "password": "fudo-secret"}}'
+```
+
+- Crear usuario exitosamente.
+- Crear usuario que ya existe.
+- Crear usuario sin mail.
+- Crear usuario sin contraseña.
+
+### Login de usuario
+
+El logueo exitoso devolvera un token que luego puede ser usado para crear y obtener una lista de los productos creados.
+
+```bash
+curl POST http://localhost:3000/users/login -H "Content-Type: application/json" \
+-d '{"user": {"email":"fudo@example.com", "password":"fudo-secret"}}'
+```
+
+- Loguear usuario exitosamente.
+- Loguear con contraseña incorrecta.
+- Loguear usuario que no existe.
+- Loguear sin mail.
+- Loguear sin contraseña.
+
+### Deslogueo de usuario
+
+El deslogueo del usuario invalidara el token asociado al usuario que fue creado/logueado.
+
+```bash
+curl POST http://localhost:3000/users/logout -H "Content-Type: application/json" \
+-d '{"user": {"email":"fudo@example.com", "password":"fudo-secret" }  }'
+```
+
+- Token de usuario deslogueado ya no es valido
+- Desloguear usuario exitosamente
+- Desloguear con contraseña incorrecta.
+- Desloguear usuario inexistente.
+- Desloguear sin mail.
+- Desloguear sin contraseña.
+
+### Creación de productos
+
+Donde dice `token` reemplazar por uno de los tokens obtenidos a la hora de crear o loguear un usuario.
+
+```bash
+curl -X POST http://localhost:3000/products
+-H 'Authorization: Bearer token'
+-H 'Content-Type: application/json'
+-d '{ "product": { "product_name": "fudo product" } }'
+```
+
+- Crear producto exitosamente.
+- Crear producto sin token.
+- Crear producto sin nombre.
+- Crear producto con caracteres invalidos. (solo se permiten letras, espacios y números).
+
+### Listado de productos creados
+
+Donde dice `token`` reemplazar por uno de los tokens obtenidos a la hora de crear o loguear un usuario.
+
+```bash
+curl -X GET http://localhost:3000/products \
+-H 'Authorization: Bearer token'
+```
+
+- Listar productos exitosamente.
+- Listar productos con token invalido.
+- Listar productos sin token.
