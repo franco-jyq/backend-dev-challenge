@@ -114,3 +114,13 @@ La generación de tokens para la autenticación se llevó a cabo utilizando la R
 - Se utilizó el endpoint https://firebase.google.com/docs/reference/rest/auth#section-create-email-password para crear nuevos usuarios mediante la especificación de credenciales como correo electrónico y contraseña.
 
 - Para iniciar sesión y obtener el token de acceso, se empleó el endpoint https://firebase.google.com/docs/reference/rest/auth#section-sign-in-email-password.
+
+## Sincronización con API externa
+
+La funcionalidad de sincronización de la lista de productos con una API externa se logró de manera mediante el uso de las utilidades de seeds proporcionadas por Ruby on Rails. Esta implementación garantiza que, al ejecutar la aplicación por primera vez, los productos devueltos por la API externa se agreguen al listado inicial de productos almacenados en la base de datos. <br>
+
+En Ruby on Rails, los seeds son scripts que permiten la carga de datos iniciales en la base de datos. Estos scripts son ejecutados mediante el comando rails db:seed, y son ideales para la inicialización de datos necesarios para el funcionamiento básico de la aplicación.
+
+### Manejo de Incompatibilidades de Identificadores (IDs)
+
+Dado que la API externa proporciona identificadores (IDs) para los productos, se abordó la posible incompatibilidad con los IDs existentes en la base de datos actual. Para evitar conflictos y garantizar la integridad de los datos, se tomó la decisión de generar nuevos IDs para los productos provenientes de la API externa.
