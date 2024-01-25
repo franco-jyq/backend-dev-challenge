@@ -23,6 +23,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     @wrong_password_params = { email: 'logintest@example.com', password: 'wrong_password' }
     @no_api_key_user_params = { email: 'nokeyuser@example.com', password: 'password' }
     @existing_user_params = {email: 'logintest@example.com', password: 'password'}
+    @logged_user_params = { email:'loggeduser@example.com', password: 'password' }
 
     @existing_user = User.create!(email: 'logintest@example.com', password: 'password')
     @existing_user.create_api_key(token: 'old_token')
@@ -46,15 +47,11 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_equal 'Completa los campos de correo electrónico y contraseña', JSON.parse(@response.body)['error']
   end
 
-  test "should create user and api key" do
-    assert_difference('User.count') do
-      post users_path, params: { user: @user_params }
-    end
-
+  test "should create user" do
+    post users_path, params: { user: @user_params }
     assert_response :created
-    assert_not_nil assigns(:user)
-    assert_not_nil assigns(:user).api_key
-    assert_equal 'new_token', assigns(:user).api_key.token
+    assert_equal 'Token para autenticación', JSON.parse(@response.body)['success']
+    assert_equal 'new_token', JSON.parse(@response.body)['token']
   end  
 
   # Login tests
@@ -100,10 +97,33 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   # Logout tests
 
+  test 'should return error when email is missing in logout' do
+    post users_logout_path, params: { user: { email: '', password: 'password' } }
+    assert_response :bad_request
+    assert_equal 'Completa los campos de correo electrónico y contraseña', JSON.parse(@response.body)['error']
+  end
+
+  test "should return error when user does not exist in logout" do
+    post users_logout_path, params: { user:@no_existing_user_params }
+    assert_response :forbidden
+    assert_equal 'Usuario no existe', JSON.parse(response.body)['error']
+  end
+
+  test "should return error with wrong password in logout" do
+    post users_logout_path, params: { user:@wrong_password_params }
+    assert_response :unauthorized
+    assert_equal 'Contraseña incorrecta', JSON.parse(response.body)['error']
+  end
+
+
   test "should update token to nil when user logs out" do
-    post users_logout_path, params: { email: @logged_user.email}
+    post users_logout_path, params: { user: @logged_user_params } 
     assert_response :ok
     assert_nil @logged_user.api_key.reload.token
   end
+
+
+
+
   
 end

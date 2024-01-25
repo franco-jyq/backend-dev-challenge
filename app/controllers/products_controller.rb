@@ -25,16 +25,18 @@ class ProductsController < ApplicationController
         unless params[:product][:product_name].present?
           render json: { error: 'El nombre del producto debe estar presente' }, status: :bad_request and return
         end
-
-        @product = Product.new(product_name: params[:product][:product_name])
+        product_name = params[:product][:product_name]
+        @product = Product.new(product_name: product_name)
         
-        if @product.save
-          render json: @product, status: :created
+        if @product.save          
+          render json: { success: 'Producto creado', product: product_name }, status: :created
+
         elsif @product.errors.details[:product_name].any? { |error| error[:error] == :invalid }
-            render json: { error: 'El nombre del producto es invalido' }, status: :unprocessable_entity and return
+            render json: { error: 'Nombre de producto invalido, solo puede contener letras, números y espacios' }, status: :unprocessable_entity and return
         else
           render json: { error: 'No se pudo crear el producto', details: @product.errors.full_messages }, status: :internal_server_error
         end        
     end    
 
 end
+

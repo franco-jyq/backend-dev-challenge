@@ -5,9 +5,9 @@ require 'json'
 class UsersController < ApplicationController
     
     
-    before_action :check_params, only: [:login, :create]
+    before_action :check_params, only: [:login, :create, :logout]
     
-    # POST /login
+    # POST users/login
     # Inicia sesión con un usuario existente
     # Parámetros requeridos: 
     # - email: El correo electrónico del usuario (string)
@@ -18,7 +18,6 @@ class UsersController < ApplicationController
     # - Si la contraseña es incorrecta: mensaje de error y estado HTTP 401 (No autorizado)
     # - Si ocurre otro error: mensaje de error y estado HTTP 500 (Error interno del servidor)
     def login
-        check_params
         @email = params[:user][:email]
         @password = params[:user][:password]
 
@@ -40,7 +39,8 @@ class UsersController < ApplicationController
         else
             render json: { error: 'Internal server error' }, status: :internal_server_error          
         end
-      
+        
+
     end 
     
     # POST /users
@@ -65,21 +65,35 @@ class UsersController < ApplicationController
             url = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=#{Rails.application.credentials.firebase_api_key}"
             token = fetch_token(url)        
             api_key = @user.create_api_key!(token: token)
-            render json: api_key, status: :created and return
+            render json: { success: 'Token para autenticación', token: token }, status: :created
         else
             render json: { error: 'No se pudo crear el usuario', details: @user.errors.full_messages }, status: :internal_server_error
       end
     end
     
-    # DELETE /logout
-    # Cierra la sesión de un usuario
+    # POST /users/logout
+    # Cierra la sesión de un usuario existente
     # Parámetros requeridos: 
     # - email: El correo electrónico del usuario (string)
+    # - password: La contraseña del usuario (string)
     # Devuelve: 
-    # - En caso de éxito: mensaje de éxito y estado HTTP 200 (OK)
-    # - Si ocurre un error: mensaje de error y estado HTTP 500 (Error interno del servidor)
+    # - En caso de éxito: JSON con el mensaje 'Usuario deslogueado exitosamente' y estado HTTP 200 (OK)
+    # - Si el usuario no existe: mensaje de error 'Usuario no existe' y estado HTTP 403 (Prohibido)
+    # - Si la contraseña es incorrecta: mensaje de error 'Contraseña incorrecta' y estado HTTP 401 (No autorizado)
+    # - Si no se pudo desloguear al usuario: mensaje de error 'No se pudo desloguear al usuario' y estado HTTP 500 (Error interno del servidor)
     def logout                
-        @user = User.find_by(email: params[:email])
+        @email = params[:user][:email]
+        @password = params[:user][:password]
+        
+        @user = User.find_by(email: @email)
+        unless @user
+            render json: { error: 'Usuario no existe' }, status: :forbidden and return
+        end
+
+        if not @user&.authenticate(@password)
+            render json: { error: 'Contraseña incorrecta' }, status: :unauthorized and return
+        end
+
         if @user&.api_key                        
             @user.api_key.update(token: nil)
             render json: {success: 'Usuario deslogueado exitosamente'}, status: :ok and return
