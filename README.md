@@ -9,7 +9,7 @@ Dependencias:
 
 La aplicación está configurada para responder a las solicitudes entrantes a través del protocolo HTTP en el puerto 3000 del entorno de desarrollo local (localhost:3000).
 
-### Ejecución con Docker
+#### Ejecución con Docker
 
 Clonar el repositorio y setear la variable de entorno `RAILS_MASTER_KEY` utilizando como valor la clave compartida en el mail.<br>
 Con el siguiente comando se levanta el servidor y se corren las pruebas.
@@ -18,12 +18,12 @@ Con el siguiente comando se levanta el servidor y se corren las pruebas.
  docker-compose up
 ```
 
-### Ejecución local
+#### Ejecución local
 
 Descargar el repositorio y las dependencias. <br>
 Dentro de la carpeta ejecutar el comando `rails s` para levantar el servidor y sincronizar la base de datos.
 
-### Tests
+#### Tests
 
 Dentro de la carpeta ejecutar el comando `rails test` para ejecutar los `tests unitarios` y los `tests de integración`. Los mismos se encuentran en los directorios `test/models` y `test/controllers`.
 
@@ -102,3 +102,15 @@ curl -X GET http://localhost:3000/products \
 - Listar productos exitosamente.
 - Listar productos con token invalido.
 - Listar productos sin token.
+
+## Autenticación
+
+La autenticación de los endpoints se implementó siguiendo los principios y recomendaciones del artículo "How to Implement API Key Authentication in Rails without Devise" disponible en https://keygen.sh/blog/how-to-implement-api-key-authentication-in-rails-without-devise/.
+
+### Generación de token
+
+La generación de tokens para la autenticación se llevó a cabo utilizando la REST API de Firebase, aprovechando los endpoints proporcionados por Firebase Authentication.
+
+- Se utilizó el endpoint https://identitytoolkit.googleapis.com/v1/accounts:signUp para crear nuevos usuarios mediante la especificación de credenciales como correo electrónico y contraseña.
+
+- Para iniciar sesión y obtener el token de acceso, se empleó el endpoint https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword.
