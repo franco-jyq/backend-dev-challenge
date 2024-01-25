@@ -86,6 +86,7 @@ curl -X POST http://localhost:3000/products
 ```
 
 - Crear producto exitosamente.
+- Crear producto con token invalido.
 - Crear producto sin token.
 - Crear producto sin nombre.
 - Crear producto con caracteres invalidos. (solo se permiten letras, espacios y números).

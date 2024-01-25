@@ -3,8 +3,6 @@ class ProductsController < ApplicationController
   
     prepend_before_action :authenticate_with_api_key!, only: %i[index create] 
     
-    # TODO: hacer documentacion de la api
-
     # GET /products
     # Devuelve una lista de todos los productos
     def index
