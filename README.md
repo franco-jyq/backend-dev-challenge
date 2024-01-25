@@ -9,7 +9,7 @@ Dependencias:
 
 La aplicación está configurada para responder a las solicitudes entrantes a través del protocolo HTTP en el puerto 3000 del entorno de desarrollo local (localhost:3000).
 
-#### Ejecución con Docker
+### Ejecución con Docker
 
 Clonar el repositorio y setear la variable de entorno `RAILS_MASTER_KEY` utilizando como valor la clave compartida en el mail.<br>
 Con el siguiente comando se levanta el servidor y se corren las pruebas.
@@ -18,14 +18,25 @@ Con el siguiente comando se levanta el servidor y se corren las pruebas.
  docker-compose up
 ```
 
-#### Ejecución local
+### Ejecución local
 
 Descargar el repositorio y las dependencias. <br>
 Dentro de la carpeta ejecutar el comando `rails s` para levantar el servidor y sincronizar la base de datos utilizando la API externa de fudo.
 
-#### Tests
+### Tests
 
 Dentro de la carpeta ejecutar el comando `rails test` para ejecutar los `tests unitarios` y los `tests de integración`. Los mismos se encuentran en los directorios `test/models` y `test/controllers`.
+
+## Documentación
+
+### Generación de Documentación con Apipie
+
+Para la documentación se utilizo el gem [Apipie](https://github.com/Apipie/apipie-rails), una herramienta para documentar APIs en Ruby on Rails.
+La documentacion puede ser accedida desde `localhost:3000/apipie`.
+
+### Pendientes
+
+Uno de los pendientes importantes es trasladar el código encargado de generar la documentación fuera de los controladores. Siguiendo las instrucciones proporcionadas en el siguiente [enlace](https://iliabylich.github.io/2015/06/07/apipie-amazing-tool-for-documenting-your-rails-api.html), se pueden realizar estos cambio para mejorar la mantenibilidad y legibilidad del código.
 
 ## Endpoints
 

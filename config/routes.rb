@@ -1,10 +1,6 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-  post '/api-keys', to: 'api_keys#create'
-  delete '/api-keys', to: 'api_keys#destroy'
-  get '/api-keys', to: 'api_keys#index'
-  
-  
+  apipie
+
   # Users
   post '/users', to: 'users#create'
   post '/users/login', to: 'users#login'

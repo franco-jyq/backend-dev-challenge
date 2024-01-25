@@ -50,3 +50,6 @@ end
 gem 'rails-controller-testing'
 
 gem "dockerfile-rails", "~> 1.6"
+
+
+gem 'apipie-rails', '~> 1.3.0'

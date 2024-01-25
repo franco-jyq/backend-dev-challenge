@@ -12,7 +12,7 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
 
   test "should not create product without product name" do
     assert_no_difference('Product.count') do
-      post products_url, params: { product: { product_name: '' } }, headers: { 'Authorization': "Bearer #{@token}" }
+      post products_url, params: { product: { product_name: "" } }, headers: { 'Authorization': "Bearer #{@token}" }
       assert_response :bad_request 
     end
   end
