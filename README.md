@@ -111,6 +111,6 @@ La autenticación de los endpoints se implementó siguiendo los principios y rec
 
 La generación de tokens para la autenticación se llevó a cabo utilizando la REST API de Firebase, aprovechando los endpoints proporcionados por Firebase Authentication.
 
-- Se utilizó el endpoint https://identitytoolkit.googleapis.com/v1/accounts:signUp para crear nuevos usuarios mediante la especificación de credenciales como correo electrónico y contraseña.
+- Se utilizó el endpoint https://firebase.google.com/docs/reference/rest/auth#section-create-email-password para crear nuevos usuarios mediante la especificación de credenciales como correo electrónico y contraseña.
 
-- Para iniciar sesión y obtener el token de acceso, se empleó el endpoint https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword.
+- Para iniciar sesión y obtener el token de acceso, se empleó el endpoint https://firebase.google.com/docs/reference/rest/auth#section-sign-in-email-password.
