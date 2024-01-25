@@ -21,7 +21,7 @@ Con el siguiente comando se levanta el servidor y se corren las pruebas.
 #### Ejecución local
 
 Descargar el repositorio y las dependencias. <br>
-Dentro de la carpeta ejecutar el comando `rails s` para levantar el servidor y sincronizar la base de datos.
+Dentro de la carpeta ejecutar el comando `rails s` para levantar el servidor y sincronizar la base de datos utilizando la API externa de fudo.
 
 #### Tests
 
@@ -117,9 +117,11 @@ La generación de tokens para la autenticación se llevó a cabo utilizando la R
 
 ## Sincronización con API externa
 
-La funcionalidad de sincronización de la lista de productos con una API externa se logró mediante el uso de las utilidades de seeds proporcionadas por Ruby on Rails. Esta implementación garantiza que, al ejecutar la aplicación por primera vez, los productos devueltos por la API externa se agreguen al listado inicial de productos almacenados en la base de datos. <br>
+La funcionalidad de sincronización de la lista de productos con una API externa se logró mediante el uso de las utilidades de **seeds** proporcionadas por Ruby on Rails. Esta implementación garantiza que, al ejecutar la aplicación por primera vez, los productos devueltos por la API externa se agreguen al listado inicial de productos almacenados en la base de datos. <br>
 
-En Ruby on Rails, los seeds son scripts que permiten la carga de datos iniciales en la base de datos. Estos scripts son ejecutados mediante el comando rails db:seed, y son ideales para la inicialización de datos necesarios para el funcionamiento básico de la aplicación. El script se encuentra en `db/seeds.rb`
+En Ruby on Rails, los seeds son scripts que permiten la carga de datos iniciales en la base de datos. Estos scripts son ejecutados mediante el comando `rails db:seed`, y son ideales para la inicialización de datos necesarios para el funcionamiento básico de la aplicación. El script se encuentra en `db/seeds.rb`. En el archivo `application.rb` se llama al script como una tarea para que se ejecute al momento de inicar el servidor.
+
+[Enlace a la documentación de Ruby on Rails sobre Migraciones y Datos de Seed](https://guides.rubyonrails.org/v5.1/active_record_migrations.html#migrations-and-seed-data)
 
 ### Manejo de Incompatibilidades de Identificadores (IDs)
 
