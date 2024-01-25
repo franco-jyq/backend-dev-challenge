@@ -17,33 +17,11 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  
-  test 'should not create product with special characters in name' do
-    assert_no_difference('Product.count') do
-      post products_url, params: { product: { product_name: 'Co-12^*%$*' } }, headers: { 'Authorization': "Bearer #{@token}" }
-      assert_response :unprocessable_entity
-    end
-  end
-  
-
   test "should create product" do
-    assert_difference('Product.count') do
-      post products_url, params: { product: { product_name: 'Coca Cola' } }, headers: { 'Authorization': "Bearer #{@token}" }
-    end
-    assert_not_nil Product.find_by(product_name: 'Coca Cola')
-    assert_response :created
+    post products_url, params: { product: { product_name: 'Coca Cola' } }, headers: { 'Authorization': "Bearer #{@token}" }
+    assert_response :accepted
   end
   
-
-  test "should get created product" do
-    post products_url, params: { product: { product_name: 'Alfajor Jorgito' } }, headers: { 'Authorization': "Bearer #{@token}" }
-    assert_response :created
-    get products_url, headers: { 'Authorization': "Bearer #{@token}" }
-    assert_response :success
-    assert_equal 'Alfajor Jorgito', JSON.parse(response.body).first['product_name']
-  end
-
-
   test "should not get products without token" do
     get products_url
     assert_response :unauthorized

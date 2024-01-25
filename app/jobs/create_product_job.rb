@@ -1,9 +1,8 @@
 class CreateProductJob < ApplicationJob
   queue_as :default
 
-  def perform(product_params)
-    puts "Params: #{product_params}"
-    product = Product.new(product_params)
+  def perform(product_name)
+    product = Product.new(product_name: product_name)
     product.save
   end
 end
