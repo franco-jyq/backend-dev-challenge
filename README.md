@@ -133,6 +133,6 @@ Dado que la API externa proporciona identificadores (IDs) para los productos, se
 Para abordar la creación asincrónica de productos, se implementó una funcionalidad adicional en una branch separada llamada "async". La idea principal detrás de esta implementación es optimizar la velocidad de respuesta del endpoint de creación de productos al ejecutar la tarea de creación de productos en segundo plano, a través de una cola de trabajos. <br>
 Se destaca que la confirmación de creación no estará inmediatamente disponible en la respuesta HTTP, ya que la tarea se realiza de manera asincrónica.
 
-Esto se logró mediante el uso de Active Job, el framework de trabajos asíncronos de Rails. Active Job facilita la ejecución de tareas en segundo plano.
+Esto se logró mediante el uso de Active Job, el framework de trabajos asíncronos de Rails. Active Job facilita la ejecución de tareas en segundo plano. El codigo asociado a la tarea que crea el producto se encuentra en el directorio `apps/jobs` bajo el nombre `create_product_job.rb`.
 
 [Enlace a la documentación de Ruby on Rails sobre Active Job](https://edgeguides.rubyonrails.org/active_job_basics.html#the-purpose-of-active-job)
