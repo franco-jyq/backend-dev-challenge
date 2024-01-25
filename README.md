@@ -7,7 +7,7 @@ Dependencias:
 
 ## Instalacion
 
-La aplicacion escucha las peticiones en el localhost:3001
+La aplicacion escucha las peticiones en el localhost:3000
 
 ### Docker
 

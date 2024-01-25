@@ -6,6 +6,6 @@ services:
     environment:
       - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
     ports:
-      - "3001:3000"
+      - "3000:3000"
     volumes:
       - .:/usr/src/app
