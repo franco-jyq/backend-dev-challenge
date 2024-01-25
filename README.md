@@ -9,7 +9,7 @@ Dependencias:
 
 La aplicación está configurada para responder a las solicitudes entrantes a través del protocolo HTTP en el puerto 3000 del entorno de desarrollo local (localhost:3000).
 
-### Docker
+### Ejecución con Docker
 
 Clonar el repositorio y setear la variable de entorno `RAILS_MASTER_KEY` utilizando como valor la clave compartida en el mail.<br>
 Con el siguiente comando se levanta el servidor y se corren las pruebas.
@@ -18,27 +18,18 @@ Con el siguiente comando se levanta el servidor y se corren las pruebas.
  docker-compose up
 ```
 
-### Local
+### Ejecución local
 
 Descargar el repositorio y las dependencias. <br>
-Levantar el servidor:
-
-```bash
-rails s
-```
+Dentro de la carpeta ejecutar el comando `rails s` para levantar el servidor y sincronizar la base de datos.
 
 ### Tests
 
-Ejecutar los tests.
-
-```bash
-rails test
-```
+Dentro de la carpeta ejecutar el comando `rails test` para ejecutar los `tests unitarios` y los `tests de integración`. Los mismos se encuentran en los directorios `test/models` y `test/controllers`.
 
 ## Endpoints
 
-A continuación se listaran los endpoints disponibles y algunos de los comportamientos que fueron validados. <br>
-En la carpeta `test/controllers` se pueden ver los test de integración para cada endpoint en los archivos `users_controller_tests.rb` y `products_controller_tests.rb`.
+A continuación se listaran los endpoints disponibles y algunos de los comportamientos que fueron validados y se proporcionan ejemplos que utilizan la herramienta curl para ilustrar cómo se deben especificar los parámetros necesarios.<br>
 
 ### Creación de usuario
 
