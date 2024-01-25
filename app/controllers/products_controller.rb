@@ -1,32 +1,40 @@
 class ProductsController < ApplicationController
     include ApiKeyAuthenticatable
   
-    # Require token authentication for index                                 
     prepend_before_action :authenticate_with_api_key!, only: %i[index create] 
     
+    # TODO: hacer documentacion de la api
+
+    # GET /products
+    # Devuelve una lista de todos los productos
     def index
         @products = Product.all
         render json: @products.as_json(only: [:id, :product_name])
     end
-            
-    # def create        
-    #     CreateProductJob.perform_later(product_params.to_h)
-    #     render json: { success: 'El producto se está creando' }, status: :accepted
-    # end
-    
-    def create        
-        @product = Product.new(product_params)
+
+    # POST /products
+    # Crea un nuevo producto
+    # Parámetros requeridos: 
+    # - product_name: El nombre del producto (string)
+    # Devuelve: 
+    # - En caso de éxito: JSON del producto creado y estado HTTP 201 (creado)
+    # - Si falta el nombre del producto: mensaje de error y estado HTTP 400 (solicitud incorrecta)
+    # - Si el nombre del producto es inválido: mensaje de error y estado HTTP 422 (entidad no procesable)
+    # - Si ocurre otro error: mensaje de error y estado HTTP 500 (error interno del servidor)
+    def create    
+        unless params[:product][:product_name].present?
+          render json: { error: 'El nombre del producto debe estar presente' }, status: :bad_request and return
+        end
+
+        @product = Product.new(product_name: params[:product][:product_name])
+        
         if @product.save
           render json: @product, status: :created
+        elsif @product.errors.details[:product_name].any? { |error| error[:error] == :invalid }
+            render json: { error: 'El nombre del producto es invalido' }, status: :unprocessable_entity and return
         else
-          render json: { error: 'No se pudo crear el producto', details: @product.errors.full_messages }, status: :unprocessable_entity
+          render json: { error: 'No se pudo crear el producto', details: @product.errors.full_messages }, status: :internal_server_error
         end        
     end    
-
-    private
-
-    def product_params
-      params.require(:product).permit(:product_name)
-    end
 
 end

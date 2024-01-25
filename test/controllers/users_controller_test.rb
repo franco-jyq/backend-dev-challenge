@@ -31,6 +31,20 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     @logged_user.create_api_key(token: 'some_token')
 
   end
+  
+  # Create tests
+
+  test 'should return error when email is missing in create' do
+    post users_path, params: { user: { email: '', password: 'password' } }
+    assert_response :bad_request
+    assert_equal 'Completa los campos de correo electrónico y contraseña', JSON.parse(@response.body)['error']
+  end
+
+  test 'should return error when password is missing in create' do
+    post users_path, params: { user: { email: 'email@example.com', password: '' } }
+    assert_response :bad_request
+    assert_equal 'Completa los campos de correo electrónico y contraseña', JSON.parse(@response.body)['error']
+  end
 
   test "should create user and api key" do
     assert_difference('User.count') do
@@ -43,25 +57,48 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_equal 'new_token', assigns(:user).api_key.token
   end  
 
-  test "should return error whit wrong password" do
+  # Login tests
+
+  test 'should return error when email is missing in login' do
+    post users_login_path, params: { user: { email: '', password: 'password' } }
+    assert_response :bad_request
+    assert_equal 'Completa los campos de correo electrónico y contraseña', JSON.parse(@response.body)['error']
+  end
+
+  test 'should return error when password is missing in login' do
+    post users_login_path, params: { user: { email: 'email@example.com', password: '' } }
+    assert_response :bad_request
+    assert_equal 'Completa los campos de correo electrónico y contraseña', JSON.parse(@response.body)['error']
+  end
+
+  test "should return error when user does not exist" do
+    post users_login_path, params: { user:@no_existing_user_params }
+    assert_response :forbidden
+    assert_equal 'Usuario no existe', JSON.parse(response.body)['error']
+  end
+
+  test "should return error with wrong password" do
     post users_login_path, params: { user:@wrong_password_params }
-    assert_response :conflict
-    assert_equal 'La contraseña es incorrecta', JSON.parse(response.body)['error']
+    assert_response :unauthorized
+    assert_equal 'Contraseña incorrecta', JSON.parse(response.body)['error']
   end
 
-  test "should return error when user does not have an token" do
+  test "should return error when user does not have a token" do
     post users_login_path, params: { user:@no_api_key_user_params }
-    assert_response :unprocessable_entity
-    assert_equal 'El usuario no tiene un Token asociado', JSON.parse(response.body)['error']
+    assert_response :internal_server_error
+    assert_equal 'Internal server error', JSON.parse(response.body)['error']
   end
 
-  test "should update token and return new token when user exists and has an token" do
+  test "should update token and return new token when user exists and has a token" do
     assert_equal 'old_token', @existing_user.api_key.token
     post users_login_path, params: { user:@existing_user_params}
     assert_response :ok
     assert_equal 'new_token', JSON.parse(response.body)['new_token']
     assert_equal 'new_token', @existing_user.api_key.reload.token
   end
+
+
+  # Logout tests
 
   test "should update token to nil when user logs out" do
     post users_logout_path, params: { email: @logged_user.email}
