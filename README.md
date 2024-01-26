@@ -104,7 +104,7 @@ curl -X POST http://localhost:3000/products
 
 ### Listado de productos creados
 
-Donde dice `token`` reemplazar por uno de los tokens obtenidos a la hora de crear o loguear un usuario.
+Donde dice `token` reemplazar por uno de los tokens obtenidos a la hora de crear o loguear un usuario.
 
 ```bash
 curl -X GET http://localhost:3000/products \
