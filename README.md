@@ -12,17 +12,20 @@ La aplicación está configurada para responder a las solicitudes entrantes a tr
 ### Ejecución con Docker
 
 Clonar el repositorio y setear la variable de entorno `RAILS_MASTER_KEY` utilizando como valor la clave compartida en el mail.<br>
+
 ```bash
  export RAILS_MASTER_KEY=<key>
 ```
+
 Con el siguiente comando se levanta el servidor y se corren las pruebas.
 
 ```bash
  docker-compose up
 ```
 
-WARNING: Al momento de ejecutar en un Mac M1, se experimento un segmentation fault. Esto es un issue reciente que encontre investigando el problema. Para evitar incovenientes la aplicación se probo en un entorno virtualizado con una imagen de Ubuntu 20.04.3. <br>
-Adjunto los enlaces: [1](https://github.com/ruby/ruby/pull/9371), [2](https://bugs.ruby-lang.org/issues/20085).
+ADVERTENCIA: Durante la ejecución en un sistema Mac M1, se detecto un error de segmentation fault. Por lo visto, luego de consultar algunos foros, es un problema reciente. Para evitar posibles inconvenientes, la aplicación fue probada en un entorno virtualizado utilizando una imagen de Ubuntu 20.04.3.
+
+Adjunto los enlaces relevantes: [Enlace 1](https://github.com/ruby/ruby/pull/9371), [Enlace 2](https://bugs.ruby-lang.org/issues/20085).
 
 ### Ejecución local
 
