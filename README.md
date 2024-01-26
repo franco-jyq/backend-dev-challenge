@@ -15,8 +15,15 @@ Clonar el repositorio y setear la variable de entorno `RAILS_MASTER_KEY` utiliza
 Con el siguiente comando se levanta el servidor y se corren las pruebas.
 
 ```bash
+ export RAILS_MASTER_KEY=<key>
+```
+
+```bash
  docker-compose up
 ```
+
+WARNING: Al momento de ejecutar en un Mac M1, se experimento un segmentation fault. Esto es un issue reciente que encontre investigando el problema. Para evitar incovenientes la aplicación se probo en un entorno virtualizado con una imagen de Ubuntu 20.04.3. <br>
+Adjunto los enlaces: [1](https://github.com/ruby/ruby/pull/9371), [2](https://bugs.ruby-lang.org/issues/20085).
 
 ### Ejecución local
 
@@ -91,7 +98,7 @@ Donde dice `token` reemplazar por uno de los tokens obtenidos a la hora de crear
 
 ```bash
 curl -X POST http://localhost:3000/products
--H 'Authorization: Bearer token'
+-H 'Authorization: Bearer <token>'
 -H 'Content-Type: application/json'
 -d '{ "product": { "product_name": "fudo product" } }'
 ```
@@ -108,7 +115,7 @@ Donde dice `token` reemplazar por uno de los tokens obtenidos a la hora de crear
 
 ```bash
 curl -X GET http://localhost:3000/products \
--H 'Authorization: Bearer token'
+-H 'Authorization: Bearer <token>'
 ```
 
 - Listar productos exitosamente.
@@ -133,7 +140,7 @@ La funcionalidad de sincronización de la lista de productos con una API externa
 
 En Ruby on Rails, los seeds son scripts que permiten la carga de datos iniciales en la base de datos. Estos scripts son ejecutados mediante el comando `rails db:seed`, y son ideales para la inicialización de datos necesarios para el funcionamiento básico de la aplicación. El script se encuentra en `db/seeds.rb`. En el archivo `application.rb` se llama al script como una tarea para que se ejecute al momento de inicar el servidor.
 
-[Enlace a la documentación de Ruby on Rails sobre Migraciones y Datos de Seed](https://guides.rubyonrails.org/v5.1/active_record_migrations.html#migrations-and-seed-data)
+[Enlace a la documentación de Ruby on Rails sobre Migraciones y Datos de Seed](https://guides.rubyonrails.org/v5.1/active_record_migrations.html#migrations-and-seed-data).
 
 ### Manejo de Incompatibilidades de Identificadores (IDs)
 
@@ -146,4 +153,4 @@ Se destaca que la confirmación de creación no estará inmediatamente disponibl
 
 Esto se logró mediante el uso de Active Job, el framework de trabajos asíncronos de Rails. Active Job facilita la ejecución de tareas en segundo plano. El codigo asociado a la tarea que crea el producto se encuentra en el directorio `apps/jobs` bajo el nombre `create_product_job.rb`.
 
-[Enlace a la documentación de Ruby on Rails sobre Active Job](https://edgeguides.rubyonrails.org/active_job_basics.html#the-purpose-of-active-job)
+[Enlace a la documentación de Ruby on Rails sobre Active Job](https://edgeguides.rubyonrails.org/active_job_basics.html#the-purpose-of-active-job).
