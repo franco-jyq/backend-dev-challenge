@@ -12,11 +12,10 @@ La aplicación está configurada para responder a las solicitudes entrantes a tr
 ### Ejecución con Docker
 
 Clonar el repositorio y setear la variable de entorno `RAILS_MASTER_KEY` utilizando como valor la clave compartida en el mail.<br>
-Con el siguiente comando se levanta el servidor y se corren las pruebas.
-
 ```bash
  export RAILS_MASTER_KEY=<key>
 ```
+Con el siguiente comando se levanta el servidor y se corren las pruebas.
 
 ```bash
  docker-compose up
