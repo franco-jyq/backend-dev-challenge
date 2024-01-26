@@ -5,7 +5,7 @@ Dependencias:
 - Ruby 3.3.0
 - Rails 7.1.3
 
-## Instalacion
+## Instalación
 
 La aplicación está configurada para responder a las solicitudes entrantes a través del protocolo HTTP en el puerto 3000 del entorno de desarrollo local (localhost:3000).
 
@@ -40,12 +40,12 @@ Dentro de la carpeta ejecutar el comando `rails test` para ejecutar los `tests u
 
 ### Generación de Documentación con Apipie
 
-Para la documentación se utilizo el gem [Apipie](https://github.com/Apipie/apipie-rails), una herramienta para documentar APIs en Ruby on Rails.
-La documentacion puede ser accedida desde `localhost:3000/apipie`.
+Para la documentación se utilizó el gem [Apipie](https://github.com/Apipie/apipie-rails), una herramienta para documentar APIs en Ruby on Rails.
+La documentación puede ser accedida desde `localhost:3000/apipie`.
 
 ### Pendientes
 
-Uno de los pendientes importantes es trasladar el código encargado de generar la documentación fuera de los controladores. Siguiendo las instrucciones proporcionadas en el siguiente [enlace](https://iliabylich.github.io/2015/06/07/apipie-amazing-tool-for-documenting-your-rails-api.html), se pueden realizar estos cambio para mejorar la mantenibilidad y legibilidad del código.
+Uno de los pendientes importantes es trasladar el código encargado de generar la documentación fuera de los controladores. Siguiendo las instrucciones proporcionadas en este aritculo [extracting docs to mixins](https://iliabylich.github.io/2015/06/07/apipie-amazing-tool-for-documenting-your-rails-api.html#extracting-docs-to-mixins), se pueden realizar estos cambios para mejorar la mantenibilidad y legibilidad del código.
 
 ## Endpoints
 
@@ -65,7 +65,7 @@ curl -X POST http://localhost:3000/users -H "Content-Type: application/json" \
 
 ### Login de usuario
 
-El logueo exitoso devolvera un token que luego puede ser usado para crear y obtener una lista de los productos creados.
+El logueo exitoso devolverá un token que luego puede ser usado para crear y obtener una lista de los productos creados.
 
 ```bash
 curl POST http://localhost:3000/users/login -H "Content-Type: application/json" \
@@ -80,14 +80,14 @@ curl POST http://localhost:3000/users/login -H "Content-Type: application/json" 
 
 ### Deslogueo de usuario
 
-El deslogueo del usuario invalidara el token asociado al usuario que fue creado/logueado.
+El deslogueo del usuario invalidará el token asociado al usuario que fue creado/logueado.
 
 ```bash
 curl POST http://localhost:3000/users/logout -H "Content-Type: application/json" \
 -d '{"user": {"email":"fudo@example.com", "password":"fudo-secret" }  }'
 ```
 
-- Token de usuario deslogueado ya no es valido
+- Token de usuario deslogueado ya no es válido
 - Desloguear usuario exitosamente
 - Desloguear con contraseña incorrecta.
 - Desloguear usuario inexistente.
@@ -109,7 +109,7 @@ curl -X POST http://localhost:3000/products
 - Crear producto con token invalido.
 - Crear producto sin token.
 - Crear producto sin nombre.
-- Crear producto con caracteres invalidos. (solo se permiten letras, espacios y números).
+- Crear producto con caracteres inválidos. (solo se permiten letras, espacios y números).
 
 ### Listado de productos creados
 
@@ -140,7 +140,7 @@ La generación de tokens para la autenticación se llevó a cabo utilizando la R
 
 La funcionalidad de sincronización de la lista de productos con una API externa se logró mediante el uso de las utilidades de **seeds** proporcionadas por Ruby on Rails. Esta implementación garantiza que, al ejecutar la aplicación por primera vez, los productos devueltos por la API externa se agreguen al listado inicial de productos almacenados en la base de datos. <br>
 
-En Ruby on Rails, los seeds son scripts que permiten la carga de datos iniciales en la base de datos. Estos scripts son ejecutados mediante el comando `rails db:seed`, y son ideales para la inicialización de datos necesarios para el funcionamiento básico de la aplicación. El script se encuentra en `db/seeds.rb`. En el archivo `application.rb` se llama al script como una tarea para que se ejecute al momento de inicar el servidor.
+En Ruby on Rails, los seeds son scripts que permiten la carga de datos iniciales en la base de datos. Estos scripts son ejecutados mediante el comando `rails db:seed`, y son ideales para la inicialización de datos necesarios para el funcionamiento básico de la aplicación. El script se encuentra en `db/seeds.rb`. En el archivo `application.rb` se llama al script como una tarea para que se ejecute al momento de iniciar el servidor.
 
 [Enlace a la documentación de Ruby on Rails sobre Migraciones y Datos de Seed](https://guides.rubyonrails.org/v5.1/active_record_migrations.html#migrations-and-seed-data).
 
@@ -148,11 +148,11 @@ En Ruby on Rails, los seeds son scripts que permiten la carga de datos iniciales
 
 Dado que la API externa proporciona identificadores (IDs) para los productos, se abordó la posible incompatibilidad con los IDs existentes en la base de datos actual. Para evitar conflictos y garantizar la integridad de los datos, se tomó la decisión de generar nuevos IDs para los productos provenientes de la API externa.
 
-## Implementacion Asincronica de la creación de productos
+## Implementación Asincrónica de la creación de productos
 
 Para abordar la creación asincrónica de productos, se implementó una funcionalidad adicional en una branch separada llamada "async". La idea principal detrás de esta implementación es optimizar la velocidad de respuesta del endpoint de creación de productos al ejecutar la tarea de creación de productos en segundo plano, a través de una cola de trabajos. <br>
 Se destaca que la confirmación de creación no estará inmediatamente disponible en la respuesta HTTP, ya que la tarea se realiza de manera asincrónica.
 
-Esto se logró mediante el uso de Active Job, el framework de trabajos asíncronos de Rails. Active Job facilita la ejecución de tareas en segundo plano. El codigo asociado a la tarea que crea el producto se encuentra en el directorio `apps/jobs` bajo el nombre `create_product_job.rb`.
+Esto se logró mediante el uso de Active Job, el framework de trabajos asíncronos de Rails. Active Job facilita la ejecución de tareas en segundo plano. El código asociado a la tarea que crea el producto se encuentra en el directorio `apps/jobs` bajo el nombre `create_product_job.rb`.
 
 [Enlace a la documentación de Ruby on Rails sobre Active Job](https://edgeguides.rubyonrails.org/active_job_basics.html#the-purpose-of-active-job).
